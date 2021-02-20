@@ -169,6 +169,26 @@ export const update_elements = (content) => {
         }
     });
 
+    content.find("h4.poll-question-header").each(function () {
+        if ($(this).text().includes("<time:")) {
+            const text = $(this)
+                .text()
+                .match(/<time:(.*)>/)
+                .pop();
+            const time_string = $(this)
+                .text()
+                .match(/<time:(.*)>/)
+                .pop();
+            const rendered_time = timerender.render_markdown_timestamp(parseISO(time_string), text);
+            $(this).text(
+                $(this)
+                    .text()
+                    .replace(/<time:(.*)>/, ""),
+            );
+            $(this).append(`<time title="${rendered_time.title}">${rendered_time.text}</time>`);
+        }
+    });
+
     content.find("span.timestamp-error").each(function () {
         const time_str = $(this).text().replace("Invalid time format: ", "");
         const text = i18n.t("Invalid time format: __timestamp__", {timestamp: time_str});

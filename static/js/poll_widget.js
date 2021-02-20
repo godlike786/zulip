@@ -3,7 +3,10 @@ import render_widgets_poll_widget_results from "../templates/widgets/poll_widget
 
 import * as people from "./people";
 
-export class PollData {
+const people = require("./people");
+const rendered_markdown = require("./rendered_markdown");
+
+class PollData {
     // This object just holds data for a poll, although it
     // works closely with the widget's concept of how data
     // should be represented for rendering, plus how the
@@ -204,8 +207,10 @@ export function activate(opts) {
         const waiting = !is_my_poll && !has_question;
         const author_help = is_my_poll && !has_question;
 
+        const content = elem.find(".poll-widget");
         elem.find(".poll-question-header").toggle(!input_mode);
         elem.find(".poll-question-header").text(question);
+        rendered_markdown.update_elements(content);
         elem.find(".poll-edit-question").toggle(can_edit);
         update_edit_controls();
 
