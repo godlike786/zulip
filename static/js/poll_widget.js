@@ -1,7 +1,9 @@
 import render_widgets_poll_widget from "../templates/widgets/poll_widget.hbs";
 import render_widgets_poll_widget_results from "../templates/widgets/poll_widget_results.hbs";
 
-import * as people from "./people";
+const render_widgets_poll_widget = require("../templates/widgets/poll_widget.hbs");
+const render_widgets_poll_widget_results = require("../templates/widgets/poll_widget_results.hbs");
+const marked = require("../third/marked/lib/marked");
 
 const people = require("./people");
 const rendered_markdown = require("./rendered_markdown");
@@ -209,7 +211,7 @@ export function activate(opts) {
 
         const content = elem.find(".poll-widget");
         elem.find(".poll-question-header").toggle(!input_mode);
-        elem.find(".poll-question-header").text(question);
+        elem.find(".poll-question-header").append(marked(question));
         rendered_markdown.update_elements(content);
         elem.find(".poll-edit-question").toggle(can_edit);
         update_edit_controls();
