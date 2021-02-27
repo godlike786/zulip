@@ -209,10 +209,14 @@ export function activate(opts) {
         const waiting = !is_my_poll && !has_question;
         const author_help = is_my_poll && !has_question;
 
-        const content = elem.find(".poll-widget");
+        const content = elem.find(".poll-question-header");
         elem.find(".poll-question-header").toggle(!input_mode);
-        elem.find(".poll-question-header").append(marked(question));
-        rendered_markdown.update_elements(content);
+        if (/<time:([^>]+)>/.test(question)) {
+            elem.find(".poll-question-header").append(marked(question));
+            rendered_markdown.update_elements(content);
+        } else {
+            elem.find(".poll-question-header").text(question);
+        }
         elem.find(".poll-edit-question").toggle(can_edit);
         update_edit_controls();
 
