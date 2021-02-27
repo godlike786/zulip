@@ -19,8 +19,6 @@ zrequire("stream_data");
 zrequire("hash_util");
 set_global("page_params", {});
 
-const return_false = () => false;
-const return_true = () => true;
 markdown.initialize([], markdown_config.get_helpers());
 
 run_test("PollData my question", () => {
