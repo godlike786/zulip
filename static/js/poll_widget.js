@@ -1,14 +1,12 @@
 import render_widgets_poll_widget from "../templates/widgets/poll_widget.hbs";
 import render_widgets_poll_widget_results from "../templates/widgets/poll_widget_results.hbs";
 
-const render_widgets_poll_widget = require("../templates/widgets/poll_widget.hbs");
-const render_widgets_poll_widget_results = require("../templates/widgets/poll_widget_results.hbs");
 const marked = require("../third/marked/lib/marked");
 
 const people = require("./people");
 const rendered_markdown = require("./rendered_markdown");
 
-class PollData {
+export class PollData {
     // This object just holds data for a poll, although it
     // works closely with the widget's concept of how data
     // should be represented for rendering, plus how the
