@@ -194,27 +194,30 @@ def generic_handler(
     elif lang == "spoiler":
         return SpoilerHandler(processor, output, fence, header)
     elif lang in (
-        "blockdiag",
-        "seqdiag",
-        "nwdiag",
-        "actdiag",
-        "mermaid",
-        "plantuml",
-        "svgbob",
-        "packetdiag",
-        "rackdiag",
-        "graphviz",
-        "erd",
-        "excalidraw",
-        "vega",
-        "vegalite",
-        "ditaa",
-        "nomnoml",
-        "bpmn",
-        "bytefield",
-        "wavedrom",
-        "c4plantuml",
-        "umlet",
+        "kroki" + s
+        for s in [
+            "blockdiag",
+            "seqdiag",
+            "nwdiag",
+            "actdiag",
+            "mermaid",
+            "plantuml",
+            "svgbob",
+            "packetdiag",
+            "rackdiag",
+            "graphviz",
+            "erd",
+            "excalidraw",
+            "vega",
+            "vegalite",
+            "ditaa",
+            "nomnoml",
+            "bpmn",
+            "bytefield",
+            "wavedrom",
+            "c4plantuml",
+            "umlet",
+        ]
     ):
         return KrokiHandler(processor, output, fence, lang)
     else:
@@ -268,8 +271,9 @@ class KrokiHandler(BaseHandler):
             zlib.compress(bytes(processed_lines, "utf-8"), 9)
         ).decode("utf-8")
 
-        kroki_url = settings.KROKI_RENDERING_URL.format(self.lang, encoded_diagram)
-
+        kroki_url = settings.KROKI_RENDERING_URL.format(
+            self.lang.replace("kroki", ""), encoded_diagram
+        )
         final_text = self.processor.placeholder(requests.get(kroki_url).text)
         self.output.append(final_text)
         self.processor.pop()
